@@ -64,8 +64,7 @@ Example add-on configuration:
 ```json
 {
   "log_level": "info",
-  "username": "MarryPoppins",
-  "password": "Supercalifragilisticexpialidocious",
+  "plex_auth": true,
   "ssl": true,
   "certfile": "fullchain.pem",
   "keyfile": "privkey.pem",
@@ -93,7 +92,12 @@ more severe level, e.g., `debug` also shows `info` messages. By default,
 the `log_level` is set to `info`, which is the recommended setting unless
 you are troubleshooting.
 
-### Option: `username`
+### Option: `plex_auth`
+
+Enables Plex authentication for Tautulli, this allows you to
+"Sign in with Plex"
+
+### Option: `username` (advanced option)
 
 Username for authenticating with the Tautulli interface.
 
@@ -105,7 +109,7 @@ world.
 
 **Note**: _This option support secrets, e.g., `!secret tautulli_username`._
 
-### Option: `password`
+### Option: `password` (advanced option)
 
 Password for authenticating with Tautulli interface.
 
@@ -132,7 +136,7 @@ The private key file to use for SSL.
 
 Set this option too `false` to disable IPv6 support.
 
-### Option: `i_like_to_be_pwned`
+### Option: `i_like_to_be_pwned` (advanced option)
 
 Adding this option to the add-on configuration allows to you bypass the
 HaveIBeenPwned password requirement by setting it to `true`.
@@ -140,7 +144,7 @@ HaveIBeenPwned password requirement by setting it to `true`.
 **Note**: _We STRONGLY suggest picking a stronger/safer password instead of
 using this option! USE AT YOUR OWN RISK!_
 
-### Option: `leave_front_door_open`
+### Option: `leave_front_door_open` (advanced option)
 
 Adding this option to the add-on configuration allows you to disable
 authentication on the add-on by setting it to `true` and leaving the
@@ -148,6 +152,11 @@ username and password empty.
 
 **Note**: _We STRONGLY suggest, not to use this, even if this add-on is
 only exposed to your internal network. USE AT YOUR OWN RISK!_
+
+### advanced options
+
+Options that are marked as (advanced option) are supported, but not available in
+the configuration, meaning if you want to use it you need to add it.
 
 ## Embedding into Home Assistant
 

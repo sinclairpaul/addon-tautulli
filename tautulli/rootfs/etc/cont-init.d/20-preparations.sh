@@ -59,15 +59,26 @@ else
     crudini --set "$CONFIG" General https_key "\"\""
 fi
 
-# Update username and password in configuration
+# Enable Plex authentication
+if hass.config.true 'plex_auth'; then
+    hass.log.info "Enabling Plex authentication..."
+    crudini --set "$CONFIG" General http_plex_admin 1
+else
+    crudini --set "$CONFIG" General http_plex_admin 0
+fi
+
 if hass.config.has_value 'username' && hass.config.has_value 'password'; then
-    hass.log.info "Ensure authentication is enabled in the configuration..."
     crudini --set "$CONFIG" General http_username "\"$(hass.config.get 'username')\""
     crudini --set "$CONFIG" General http_password "\"$(hass.config.get 'password')\""
 else
-    hass.log.info "Ensure authentication is not enabled in the configuration..."
-    crudini --set "$CONFIG" General http_username "\"\""
-    crudini --set "$CONFIG" General http_password "\"\""
+    if hass.config.true 'plex_auth'; then
+        hass.log.info "Generating random username and password."
+        crudini --set "$CONFIG" General http_username "$RANDOM""$RANDOM""$RANDOM""$RANDOM""$RANDOM""$RANDOM"
+        crudini --set "$CONFIG" General http_password "$RANDOM""$RANDOM""$RANDOM""$RANDOM""$RANDOM""$RANDOM"
+    else
+        crudini --set "$CONFIG" General http_username ""
+        crudini --set "$CONFIG" General http_password ""
+    fi
 fi
 
 # Changing config.ini back.

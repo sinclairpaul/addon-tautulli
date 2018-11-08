@@ -6,24 +6,27 @@
 # shellcheck disable=SC1091
 source /usr/lib/hassio-addons/base.sh
 
-# Require username / password
-if ! hass.config.has_value 'username' \
-    && ! ( \
-        hass.config.exists 'leave_front_door_open' \
-        && hass.config.true 'leave_front_door_open' \
-    );
-then
-    hass.die 'You need to set a username!'
+# Require username / password if plex_auth is false
+if hass.config.false 'plex_auth'; then
+    if ! hass.config.has_value 'username' \
+        && ! ( \
+            hass.config.exists 'leave_front_door_open' \
+            && hass.config.true 'leave_front_door_open' \
+        );
+    then
+        hass.die 'You need to set a username!'
+    fi
+
+    if ! hass.config.has_value 'password' \
+        && ! ( \
+            hass.config.exists 'leave_front_door_open' \
+            && hass.config.true 'leave_front_door_open' \
+        );
+    then
+        hass.die 'You need to set a password!';
+    fi
 fi
 
-if ! hass.config.has_value 'password' \
-    && ! ( \
-        hass.config.exists 'leave_front_door_open' \
-        && hass.config.true 'leave_front_door_open' \
-    );
-then
-    hass.die 'You need to set a password!';
-fi
 
 # Require a secure password
 if hass.config.has_value 'password' \
